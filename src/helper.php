@@ -118,6 +118,8 @@ function getFormattedValue($schema)
         // A universal resource identifier (URI), according to RFC3986.
         case 'uri':
             return getInternetFakerInstance()->url();
+        case 'guid':
+            return rand();
         default:
             throw new \Exception("Unsupported type: {$schema->format}");
     }

@@ -131,7 +131,15 @@ class Faker
         } else {
             $min = get($schema, 'minLength', 1);
             $max = get($schema, 'maxLength', max(5, $min + 1));
-            $lorem = Lorem::text($max);
+            if ($max < $min) {
+                $max = $min;
+            }
+            if ($max >= 5) {
+                $lorem = Lorem::text($max);
+            } else {
+                $lorem = '';
+            }
+
 
             if (mb_strlen($lorem) < $min) {
                 $lorem = str_repeat($lorem, $min);
