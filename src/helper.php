@@ -16,9 +16,9 @@ use Faker\Provider\Internet;
 /**
  * Get value without E_NOTICE
  *
- * @param  \stdClass $obj     Target
- * @param  string $prop    Property name
- * @param  mixed  $default Value if $obj->{$prop} does not exist
+ * @param  \stdClass $obj Target
+ * @param  string $prop Property name
+ * @param  mixed $default Value if $obj->{$prop} does not exist
  * @return mixed property value or default value
  */
 function get($obj, $prop, $default = null)
@@ -60,6 +60,7 @@ function resolveOf(\stdClass $schema)
 function getMaximum($schema)
 {
     $offset = get($schema, 'exclusiveMaximum', false) ? 1 : 0;
+
     return (int)(get($schema, 'maximum', mt_getrandmax()) - $offset);
 }
 
@@ -72,6 +73,7 @@ function getMaximum($schema)
 function getMinimum($schema)
 {
     $offset = get($schema, 'exclusiveMinimum', false) ? 1 : 0;
+
     return (int)(get($schema, 'minimum', -mt_getrandmax()) + $offset);
 }
 
@@ -103,6 +105,9 @@ function getFormattedValue($schema)
         // Date representation, as defined by RFC 3339, section 5.6.
         case 'date-time':
             return DateTime::dateTime()->format(DATE_RFC3339);
+        //TODO check date creation
+        case 'date':
+            return DateTime::date();
         // Internet email address, see RFC 5322, section 3.4.1.
         case 'email':
             return getInternetFakerInstance()->safeEmail();
@@ -118,8 +123,12 @@ function getFormattedValue($schema)
         // A universal resource identifier (URI), according to RFC3986.
         case 'uri':
             return getInternetFakerInstance()->url();
+        // TODO Update guid rand
         case 'guid':
             return rand();
+        // TODO Update Country calling code or add custom formated values
+        case 'countryCallingCode':
+            return rand(0, 999);
         default:
             throw new \Exception("Unsupported type: {$schema->format}");
     }
