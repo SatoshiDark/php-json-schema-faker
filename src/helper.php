@@ -118,6 +118,7 @@ function getFormattedValue($schema)
         // A universal resource identifier (URI), according to RFC3986.
         case 'uri':
             return getInternetFakerInstance()->url();
+        //TODO Update guid rand
         case 'guid':
             return rand();
         default:

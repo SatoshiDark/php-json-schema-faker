@@ -131,6 +131,7 @@ class Faker
         } else {
             $min = get($schema, 'minLength', 1);
             $max = get($schema, 'maxLength', max(5, $min + 1));
+            //Todo Improve max and min validation.
             if ($max < $min) {
                 $max = $min;
             }
